@@ -17,6 +17,6 @@
 }
 body {
   margin: 10;
-  background-color: var(--bs-gray);
+  --background-color: var(--bs-gray);
   font-family: var(--bs-body-font-family);
 }
