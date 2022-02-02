@@ -9,23 +9,42 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="clientes")
 public class Cliente implements Serializable{
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(name = "nombre", length = 50)
+
+	@NotEmpty
+	@Column(name = "nombre", length = 50, nullable = false)
 	private String nombre;
+	@NotEmpty
 	@Column(name = "apellido", length = 50)
 	private String apellido;
-	@Column(name = "email", length = 100)
+	
+	@Email
+	@NotEmpty
+	@Column(name = "email", length = 100, nullable = false, unique = true)
 	private String email;
+
+	@NotNull
 	@Column(name = "createdAt")
 	private LocalDate createdAt;
 
+	private String foto;
+
+	// Este código sirve para ejecutar justo antes de insertar
+//	@PrePersist
+//	public void prePersist() {
+//		createdAt = LocalDate.now();
+//	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -65,6 +84,15 @@ public class Cliente implements Serializable{
 	public void setCreatedAt(LocalDate createdAt) {
 		this.createdAt = createdAt;
 	}
+
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+
 	/**
 	 * 
 	 */
