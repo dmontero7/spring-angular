@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Cliente } from './cliente';
+import { Region } from './region';
 import { ClienteService } from './cliente.service';
 import { Router,ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
@@ -10,6 +11,7 @@ import swal from 'sweetalert2';
 })
 export class FormComponent implements OnInit {
   public cliente:Cliente = new Cliente();
+  public regiones:Region[];
   public titulo : string = "Crear cliente";
   public errors : string[];
 
@@ -19,6 +21,9 @@ export class FormComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarCliente();
+    this.clienteService.getRegiones().subscribe(
+      regiones => this.regiones = regiones
+    );
   }
   public cargarCliente():void{
     this.activatedRoute.params.subscribe( params => {
@@ -48,5 +53,11 @@ export class FormComponent implements OnInit {
         swal.fire('Cliente Actualizado',`Cliente ${this.cliente.nombre} actualizado con éxito`,'success');
       }
     );
+  }
+  public compararRegion(o1:Region, o2:Region):boolean{
+    if(o1 === undefined && o2 === undefined){
+      return true;
+    }
+    return o1 == null || o2 == null ? false : o1.id === o2.id;
   }
 }

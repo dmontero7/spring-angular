@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.damb.springboot.backend.apirest.exceptions.ClienteException;
 import com.damb.springboot.backend.apirest.models.entity.Cliente;
+import com.damb.springboot.backend.apirest.models.entity.Region;
 
 public interface IClienteService {
 	
@@ -22,4 +23,6 @@ public interface IClienteService {
 	public Page<Cliente> findAll(Pageable pageable);
 
 	public Cliente upload(MultipartFile archivo, Long id) throws ClienteException;
+
+	public List<Region> findAllRegiones();
 }

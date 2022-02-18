@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { formatDate } from '@angular/common';
 //import { CLIENTE } from './clientes.json';
 import { Cliente } from "./cliente";
+import { Region } from "./region";
 import { /*of,*/ Observable,throwError } from 'rxjs';
 import { HttpClient, HttpHeaders,HttpErrorResponse,HttpRequest,HttpEvent } from '@angular/common/http';
 import { retry, map, catchError, tap } from 'rxjs/operators';
@@ -16,6 +17,9 @@ export class ClienteService {
   private urlEndPoint : string ='http://localhost:8080/api/clientes';
   private httpHeaders = new HttpHeaders({'Content-Type':'application/json'});
   constructor(private http : HttpClient,private router: Router) { }
+  getRegiones():Observable<Region[]>{
+    return this.http.get<Region[]>(this.urlEndPoint + '/regiones');
+  }
   //el observable se usa para decirle a todos que el arreglo de cliente puede cambiar para que estén atentos
   getClientes(page:number): Observable<Cliente[]>{
     //return of(CLIENTE); así funciona para traer datos de una clase en angular

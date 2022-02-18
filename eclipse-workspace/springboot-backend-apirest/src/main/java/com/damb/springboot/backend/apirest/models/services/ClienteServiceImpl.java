@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.damb.springboot.backend.apirest.exceptions.ClienteException;
 import com.damb.springboot.backend.apirest.models.dao.IClienteDao;
 import com.damb.springboot.backend.apirest.models.entity.Cliente;
+import com.damb.springboot.backend.apirest.models.entity.Region;
 
 @Service
 public class ClienteServiceImpl implements IClienteService {
@@ -85,6 +86,12 @@ public class ClienteServiceImpl implements IClienteService {
 			}
 
 		}
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Region> findAllRegiones() {
+		return dao.findAllRegiones();
 	}
 
 }

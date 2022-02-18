@@ -35,6 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.damb.springboot.backend.apirest.exceptions.ClienteException;
 import com.damb.springboot.backend.apirest.models.entity.Cliente;
+import com.damb.springboot.backend.apirest.models.entity.Region;
 import com.damb.springboot.backend.apirest.models.services.IClienteService;
 
 @CrossOrigin(origins = { "http://localhost:4200" })
@@ -117,6 +118,7 @@ public class ClienteRestController {
 			clienteActual.setNombre(cliente.getNombre());
 			clienteActual.setApellido(cliente.getApellido());
 			clienteActual.setEmail(cliente.getEmail());
+			clienteActual.setRegion(cliente.getRegion());
 			clienteUpdated = clienteService.save(clienteActual);
 		} catch (DataAccessException e) {
 			response.put("msg", "Ocurrió un error al insertar en la base de datos");
@@ -184,5 +186,10 @@ public class ClienteRestController {
 		HttpHeaders cabecera = new HttpHeaders();
 		cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=\"" + recurso.getFilename() + "\"");
 		return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
+	}
+
+	@GetMapping("/clientes/regiones")
+	public List<Region> getRegiones() {
+		return clienteService.findAllRegiones();
 	}
 }
