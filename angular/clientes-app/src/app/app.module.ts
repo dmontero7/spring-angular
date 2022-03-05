@@ -11,7 +11,7 @@ import { PaginatorComponent } from './paginator/paginator.component';
 import { FormComponent } from './clientes/form.component';
 import { ClienteService } from './clientes/cliente.service';
 import { RouterModule, Routes } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { FormsModule } from '@angular/forms';
 import localeEs from '@angular/common/locales/es';
@@ -21,6 +21,8 @@ import { DetalleComponent } from './clientes/detalle/detalle.component';
 import { LoginComponent } from './usuarios/login.component';
 import { AuthGuard } from './usuarios/guards/auth.guard';
 import { RoleGuard } from './usuarios/guards/role.guard';
+import {TokenInterceptor} from './usuarios/interceptors/token.interceptor';
+import {AuthInterceptor} from './usuarios/interceptors/auth.interceptor';
 //Estas rutas se usan para definir rutas url y asignarlas a las directivas
 registerLocaleData(localeEs);
 const routes : Routes =[
@@ -53,7 +55,9 @@ const routes : Routes =[
     RouterModule.forRoot(routes),
     BrowserAnimationsModule
   ],
-  providers: [ClienteService,{provide:LOCALE_ID,useValue:'es'}],
+  providers: [ClienteService,{provide:LOCALE_ID,useValue:'es'},
+            { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+            { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
