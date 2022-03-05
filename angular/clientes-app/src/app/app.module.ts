@@ -18,7 +18,9 @@ import localeEs from '@angular/common/locales/es';
 import { registerLocaleData } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DetalleComponent } from './clientes/detalle/detalle.component';
-
+import { LoginComponent } from './usuarios/login.component';
+import { AuthGuard } from './usuarios/guards/auth.guard';
+import { RoleGuard } from './usuarios/guards/role.guard';
 //Estas rutas se usan para definir rutas url y asignarlas a las directivas
 registerLocaleData(localeEs);
 const routes : Routes =[
@@ -26,8 +28,9 @@ const routes : Routes =[
   {path:'directivas',component:DirectivaComponent},
   {path:'clientes',component:ClientesComponent},
   {path:'clientes/page/:page',component:ClientesComponent},
-  {path:'clientes/form',component:FormComponent},
-  {path:'clientes/form/:id',component:FormComponent}
+  {path:'clientes/form',component:FormComponent, canActivate:[AuthGuard,RoleGuard],data:{role:'ROLE_ADMIN'}},
+  {path:'clientes/form/:id',component:FormComponent, canActivate:[AuthGuard,RoleGuard],data:{role:'ROLE_ADMIN'}},
+  {path:'login',component:LoginComponent}
 ];
 
 @NgModule({
@@ -39,7 +42,8 @@ const routes : Routes =[
     ClientesComponent,
     FormComponent,
     PaginatorComponent,
-    DetalleComponent
+    DetalleComponent,
+    LoginComponent
   ],
   //al importar RouterModule se le dice que utilize el mapeo de rutas
   imports: [

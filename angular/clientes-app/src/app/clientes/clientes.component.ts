@@ -5,6 +5,7 @@ import { Router,ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 import { tap } from 'rxjs/operators';
 import { ModalService } from './detalle/modal.service';
+import { AuthService } from '../usuarios/auth.service';
 
 @Component({
   selector: 'app-clientes',
@@ -19,6 +20,7 @@ export class ClientesComponent implements OnInit {
   //agregando el parametro privado aplica inyeccion de dependencias en angular
   constructor(private clienteService : ClienteService,
             private activatedRoute:ActivatedRoute,
+            public authService:AuthService,
             private modalService : ModalService) { }
 
   ngOnInit(): void {
