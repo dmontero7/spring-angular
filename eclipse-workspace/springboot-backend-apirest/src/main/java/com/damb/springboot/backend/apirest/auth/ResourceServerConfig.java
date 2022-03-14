@@ -24,6 +24,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	http.authorizeRequests()
 		.antMatchers(HttpMethod.GET, "/api/clientes", "/api/clientes/page/**", "/api/uploads/img/**",
 			"/images/**")
+		.permitAll().antMatchers("/api/clientes/{id}").permitAll().antMatchers("/api/facturas/{id}")
 		.permitAll()
 		// Se comentan estas líneas porque se van a pasar los filtros a anotaciones
 		// directamente desde cada servicio

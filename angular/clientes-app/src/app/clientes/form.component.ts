@@ -4,6 +4,7 @@ import { Region } from './region';
 import { ClienteService } from './cliente.service';
 import { Router,ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
+import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'app-form',
@@ -17,7 +18,7 @@ export class FormComponent implements OnInit {
 
   constructor(private clienteService : ClienteService,
               private router : Router,
-              private activatedRoute:ActivatedRoute) { }
+              private activatedRoute:ActivatedRoute,private datepipe :DatePipe) { }
 
   ngOnInit(): void {
     this.cargarCliente();
@@ -33,7 +34,9 @@ export class FormComponent implements OnInit {
           cliente => this.cliente = cliente
         )
       }
-    })
+    });
+    this.cliente.createdAt = this.datepipe.transform(this.cliente.createdAt,'dd/MM/yyyy');
+    console.log(this.cliente.createdAt);
   }
   public create():void{
     this.clienteService.create(this.cliente).subscribe(
@@ -47,6 +50,7 @@ export class FormComponent implements OnInit {
     );
   }
   public update():void{
+    this.cliente.facturas = null;
     this.clienteService.update(this.cliente).subscribe(
       response => {
         this.router.navigate(['/clientes']);

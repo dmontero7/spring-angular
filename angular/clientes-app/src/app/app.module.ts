@@ -7,15 +7,14 @@ import { FooterComponent} from './footer/footer.component';
 import { DirectivaComponent } from './directiva/directiva.component';
 import { ClientesComponent } from './clientes/clientes.component';
 import { PaginatorComponent } from './paginator/paginator.component';
-
 import { FormComponent } from './clientes/form.component';
 import { ClienteService } from './clientes/cliente.service';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import localeEs from '@angular/common/locales/es';
-import { registerLocaleData } from '@angular/common';
+import { registerLocaleData,DatePipe } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DetalleComponent } from './clientes/detalle/detalle.component';
 import { LoginComponent } from './usuarios/login.component';
@@ -23,6 +22,11 @@ import { AuthGuard } from './usuarios/guards/auth.guard';
 import { RoleGuard } from './usuarios/guards/role.guard';
 import {TokenInterceptor} from './usuarios/interceptors/token.interceptor';
 import {AuthInterceptor} from './usuarios/interceptors/auth.interceptor';
+import { DetalleFacturaComponent } from './facturas/detalle-factura.component';
+import { FacturasComponent } from './facturas/facturas.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
 //Estas rutas se usan para definir rutas url y asignarlas a las directivas
 registerLocaleData(localeEs);
 const routes : Routes =[
@@ -32,7 +36,9 @@ const routes : Routes =[
   {path:'clientes/page/:page',component:ClientesComponent},
   {path:'clientes/form',component:FormComponent, canActivate:[AuthGuard,RoleGuard],data:{role:'ROLE_ADMIN'}},
   {path:'clientes/form/:id',component:FormComponent, canActivate:[AuthGuard,RoleGuard],data:{role:'ROLE_ADMIN'}},
-  {path:'login',component:LoginComponent}
+  {path:'login',component:LoginComponent},
+  {path:'facturas/:id',component:DetalleFacturaComponent, canActivate:[AuthGuard,RoleGuard],data:{role:'ROLE_USER'}},
+  {path:'facturas/form/:clienteId',component:FacturasComponent, canActivate:[AuthGuard,RoleGuard],data:{role:'ROLE_ADMIN'}}
 ];
 
 @NgModule({
@@ -45,7 +51,9 @@ const routes : Routes =[
     FormComponent,
     PaginatorComponent,
     DetalleComponent,
-    LoginComponent
+    LoginComponent,
+    DetalleFacturaComponent,
+    FacturasComponent,
   ],
   //al importar RouterModule se le dice que utilize el mapeo de rutas
   imports: [
@@ -53,9 +61,13 @@ const routes : Routes =[
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot(routes),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
-  providers: [ClienteService,{provide:LOCALE_ID,useValue:'es'},
+  providers: [ClienteService,DatePipe,{provide:LOCALE_ID,useValue:'es'},
             { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
             { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]

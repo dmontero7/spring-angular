@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { formatDate } from '@angular/common';
+import { formatDate,DatePipe } from '@angular/common';
 //import { CLIENTE } from './clientes.json';
 import { Cliente } from "./cliente";
 import { Region } from "./region";
@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 })
 export class ClienteService {
   private urlEndPoint : string ='http://localhost:8080/api/clientes';
-  constructor(private http : HttpClient,private router: Router) { }
+  constructor(private http : HttpClient,private router: Router,public datepipe: DatePipe) { }
 
   /*private agregarAuthorizationHeader(){
     let token = this.authService.token;
@@ -76,7 +76,7 @@ export class ClienteService {
       map( (response:any) => {
         (response.content as Cliente[]).map(cliente => {
           cliente.nombre = cliente.nombre.toUpperCase();
-          cliente.createdAt = formatDate(cliente.createdAt,'fullDate','es');
+          cliente.createdAt = this.datepipe.transform(cliente.createdAt,'yyyy-MM-dd');
           return cliente;
         });
         return response;
@@ -106,8 +106,7 @@ export class ClienteService {
           console.error(e.error.msg);
         }
         return throwError(e);
-      })
-    );
+      }));
   }
 
   public update(cliente:Cliente) : Observable<Cliente>{
