@@ -19,7 +19,7 @@ import com.damb.springboot.backend.apirest.models.entity.Factura;
 import com.damb.springboot.backend.apirest.models.entity.Producto;
 import com.damb.springboot.backend.apirest.models.services.IClienteService;
 
-@CrossOrigin(origins = { "http://localhost:4200" })
+@CrossOrigin(origins = { "http://localhost:4200", "*" })
 @RestController
 @RequestMapping("/api")
 public class FacturaRestController {
@@ -54,4 +54,14 @@ public class FacturaRestController {
 	System.out.println(factura.toString());
 	return clienteService.saveFactura(factura);
     }
+
+    /*
+     * @GetMapping("/test")
+     * 
+     * @ResponseStatus(HttpStatus.OK) public String test() { int array[] = { 10, 3,
+     * 5, 6, 2 }; int array2[] = new int[array.length]; for (int i = 0; i <
+     * array.length; i++) { int result = 0; for (int j = 0; j < array.length; j++) {
+     * if(j==i) { continue; } result = result * array[j]; } array2[i] = result; }
+     * return response.toString(); }
+     */
 }

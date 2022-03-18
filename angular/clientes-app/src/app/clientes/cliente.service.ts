@@ -6,14 +6,14 @@ import { Region } from "./region";
 import { /*of,*/ Observable,throwError } from 'rxjs';
 import { HttpClient,HttpRequest,HttpEvent } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
-
+import {URL_BACKEND} from '../config/config';
 import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClienteService {
-  private urlEndPoint : string ='http://localhost:8080/api/clientes';
+  private urlEndPoint : string =URL_BACKEND+'/api/clientes';
   constructor(private http : HttpClient,private router: Router,public datepipe: DatePipe) { }
 
   /*private agregarAuthorizationHeader(){

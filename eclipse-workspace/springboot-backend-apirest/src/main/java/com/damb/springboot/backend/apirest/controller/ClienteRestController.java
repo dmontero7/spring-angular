@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -39,7 +40,7 @@ import com.damb.springboot.backend.apirest.models.entity.Cliente;
 import com.damb.springboot.backend.apirest.models.entity.Region;
 import com.damb.springboot.backend.apirest.models.services.IClienteService;
 
-@CrossOrigin(origins = { "http://localhost:4200" })
+@CrossOrigin(origins = { "http://localhost:4200", "*" })
 @RestController
 @RequestMapping("/api")
 public class ClienteRestController {
@@ -84,7 +85,8 @@ public class ClienteRestController {
 	Map<String, Object> response = new HashMap<>();
 	if (result.hasErrors()) {
 	    List<String> errors = result.getFieldErrors().stream()
-		    .map(x -> "El campo ".concat(x.getField()).concat(" ").concat(x.getDefaultMessage())).toList();
+		    .map(x -> "El campo ".concat(x.getField()).concat(" ").concat(x.getDefaultMessage()))
+		    .collect(Collectors.toList());
 	    response.put("msg", errors);
 	    return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 	}
@@ -107,7 +109,8 @@ public class ClienteRestController {
 	Map<String, Object> response = new HashMap<>();
 	if (result.hasErrors()) {
 	    List<String> errors = result.getFieldErrors().stream()
-		    .map(x -> "El campo ".concat(x.getField()).concat(" ").concat(x.getDefaultMessage())).toList();
+		    .map(x -> "El campo ".concat(x.getField()).concat(" ").concat(x.getDefaultMessage()))
+		    .collect(Collectors.toList());
 	    response.put("msg", errors);
 	    return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 	}
